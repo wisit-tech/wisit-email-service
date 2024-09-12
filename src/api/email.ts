@@ -1,18 +1,20 @@
 import nodemailer from 'nodemailer';
 
-export const mailHotel=()=>{
-
+export const mailHotel=(params:any)=>{
+if(!params.mailId || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(params.mailId) ){
+  return;
+}
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'suryu7240@gmail.com',
-        pass: 'izrc gcec cqhg nhsm'
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
       }
     });
     
     var mailOptions = {
-      from: 'suryu7240@gmail.com',
-      to: 'omarsuryansh03@gmail.com',
+      from: process.env.EMAIL,
+      to: params.mailId,
       subject: 'Sending Email using Node.js',
       text: 'That was easy!'
     };
