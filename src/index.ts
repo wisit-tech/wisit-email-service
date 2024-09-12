@@ -2,6 +2,7 @@
 
 import express from 'express';
 import dotenv from 'dotenv';
+import router from './routes';
 dotenv.config({
     path: '../.env'
 });
@@ -15,6 +16,8 @@ app.get('/', (req, res) => {
 // Middleware
 
 app.use(express.json());
+
+app.use('/api/',router);
 
 // Routes
 app.listen(port, () => {
