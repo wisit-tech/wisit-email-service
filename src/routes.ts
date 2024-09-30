@@ -1,6 +1,6 @@
 import express from "express";
 import { mailHotel } from "./api/email";
-import { sendEmailUsingSes } from "./api/amazonSes";
+import {  sendEmailUsingSes } from "./api/amazonSes";
 
 const router = express.Router();
 router.post("/mailHotel", (req, res) => {
