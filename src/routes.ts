@@ -3,6 +3,7 @@ import { mailHotel } from "./api/email";
 import { sendEmailUsingSes } from "./api/amazonSes";
 import { Request, Response } from "express";
 
+
 const router = express.Router();
 
 
