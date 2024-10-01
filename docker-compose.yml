@@ -1,0 +1,8 @@
+services:
+  wisit-email-service:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8004:8004'
+
