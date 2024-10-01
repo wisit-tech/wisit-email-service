@@ -1,29 +1,44 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
-export const mailHotel=(params:any)=>{
-if(!params.mailId || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(params.mailId) ){
-  return;
-}
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-      }
+export const mailHotel = async (params: { mailId: string; subject: string; message: string }) => {
+    console.log(params);
+
+    // Validate email address format
+    if (
+        !params.mailId ||
+        !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(params.mailId)
+    ) {
+        console.error('Invalid email format:', params.mailId);
+        throw new Error('Invalid email format');
+    }
+
+    // Ensure environment variables are correctly loaded
+    console.log("Email:", process.env.EMAIL, "Password:", process.env.PASSWORD);
+
+    // Create transporter with explicit configuration
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL_ID,
+            pass: process.env.PASSWORD,
+        },
     });
-    
-    var mailOptions = {
-      from: process.env.EMAIL,
-      to: params.mailId,
-      subject: 'Sending Email using Node.js',
-      text: 'That was easy!'
+
+    // Define the mail options
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: params.mailId,
+        subject: params.subject || "Sending Email using Node.js",
+        text: params.message || "That was easy!",
     };
-    
-    transporter.sendMail(mailOptions, (error: any, info: { response: string; })=>{
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+
+    // Send the email
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent: " + info.response);
+        return info; // Optionally return the info
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw new Error('Failed to send email');
+    }
 };
