@@ -5,14 +5,13 @@ import { Request, Response } from "express";
 
 const router = express.Router();
 
+
 // Route for sending mail using Nodemailer
 router.post("/mail/hotel", (req: Request, res: Response) => {
-  const { mailId, subject, message } = req.body;
+  const { mailId, subject, message } = req.body; 
 
   if (!mailId || !subject || !message) {
-    return res
-      .status(400)
-      .send({ message: "mailId, subject, and message are required" });
+    return res.status(400).send({ message: "mailId, subject, and message are required" });
   }
 
   try {
@@ -26,7 +25,7 @@ router.post("/mail/hotel", (req: Request, res: Response) => {
 
 // Route for sending mail using AWS SES
 router.post("/mail/ses", async (req: Request, res: Response) => {
-  const { mailId, message, subject } = req.body;
+  const { mailId, message, subject } = req.body; 
   // Check if mailId, message, and subject are provided
   if (!mailId || !message || !subject) {
     return res
@@ -43,5 +42,6 @@ router.post("/mail/ses", async (req: Request, res: Response) => {
     res.status(500).send({ message: "Failed to send email" });
   }
 });
+
 
 export default router;
