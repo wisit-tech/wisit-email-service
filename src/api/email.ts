@@ -1,9 +1,11 @@
 import nodemailer from 'nodemailer';
 
 export const mailHotel=(params:any)=>{
+  console.log(params)
 if(!params.mailId || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(params.mailId) ){
   return;
-}
+} 
+  // console.log(params)
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
