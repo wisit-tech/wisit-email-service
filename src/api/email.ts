@@ -15,10 +15,6 @@ export const mailHotel = async (params: {
     console.error("Invalid email format:", params.mailId);
     throw new Error("Invalid email format");
   }
-
-  // Ensure environment variables are correctly loaded
-  console.log("Email:", process.env.EMAIL, "Password:", process.env.PASSWORD);
-
   // Create transporter with explicit configuration
   const transporter = nodemailer.createTransport({
     service: "gmail",
