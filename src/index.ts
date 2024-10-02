@@ -8,7 +8,7 @@ dotenv.config({
 });
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8004;
 
 app.get('/', (req, res) => {
     res.send('Hello, TypeScript Node.js App!');
@@ -23,6 +23,3 @@ app.use('/api/',router);
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
-
-const all_routes = require('express-list-endpoints');
-console.log(all_routes(app));
