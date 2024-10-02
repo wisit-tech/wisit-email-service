@@ -29,6 +29,7 @@ export const mailHotel = async (params: {
     from: process.env.EMAIL,
     to: params.mailId,
     subject: params.subject,
+    html: params.message,
     text: params.message,
   };
 

@@ -30,6 +30,10 @@ export const sendEmailUsingSes = async (reqParams: {
     },
     Message: {
       Body: {
+        Html: {
+          Data: message,
+          Charset: "UTF-8",
+        },
         Text: {
           Data: message,
           Charset: "UTF-8",
