@@ -5,7 +5,6 @@ EXPOSE 8004
 WORKDIR /app
 COPY package.json /app
 COPY .yarnrc.yml /app
-COPY yarn.lock /app
 
 RUN yarn install
 
