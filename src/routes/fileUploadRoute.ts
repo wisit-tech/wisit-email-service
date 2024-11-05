@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import upload from "../api/fileuploader";
+import { upload } from "../api/fileuploader";
 
 const fileUploadRouter = express.Router();
 
@@ -12,7 +12,14 @@ fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded!" });
     }
-    res.status(200).json({ message: "File uploaded successfully!", filePath: req.file.path });
+
+    // Construct the URL for the uploaded file
+    const fileUrl = `${process.env.SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
+
+    // Send the response with the URL
+    res
+      .status(200)
+      .json({ message: "File uploaded successfully!", fileUrl: fileUrl });
   });
 });
 

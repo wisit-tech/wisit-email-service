@@ -1,11 +1,12 @@
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
-import { Request } from "express";
+import { Request } from "express"; // Ensure you're importing Response from express
 
 // Define the upload directory path
 const uploadDir = "public/uploads/";
 
+// Ensure the upload directory exists
 const ensureUploadDirExists = () => {
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -14,13 +15,15 @@ const ensureUploadDirExists = () => {
 
 // Define the storage location and filename format
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (req: Request, file, cb) => {
     ensureUploadDirExists(); // Ensure the directory exists before saving the file
     cb(null, uploadDir); // Specify the upload folder
   },
-  filename: (req, file, cb) => {
+  filename: (req: Request, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}-${file.originalname}`);
+    // Remove spaces from the original file name and use Date.now() to generate a timestamp-based filename
+    const sanitizedFileName = file.originalname.replace(/\s+/g, "_"); // Replace spaces with underscores
+    cb(null, `${Date.now()}-${sanitizedFileName}`); // Use the sanitized file name
   },
 });
 
@@ -51,4 +54,4 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-export default upload;
+export { upload };
