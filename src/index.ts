@@ -1,13 +1,14 @@
 // app/index.ts
 import express from "express";
 import dotenv from "dotenv";
-import router from "./routes";
+import router from "./routes/index";
 dotenv.config({
   path: "../.env",
 });
 
 const app = express();
 const port = process.env.PORT || 8004;
+app.use('/public', express.static('public'));
 
 app.get("/", (req, res) => {
   res.send("Hello, TypeScript Node.js App!");

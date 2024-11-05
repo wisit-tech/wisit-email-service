@@ -6,8 +6,8 @@ import fileUploadRouter from "./fileUploadRoute";
 const router = express.Router();
 
 // Add routes with explicit paths
-router.use("/mail/hotel", mailHotelRouter);
-router.use("/mail/ses", mailSesRouter);
-router.use("/upload", fileUploadRouter); // Define as /api/upload
+router.use(mailHotelRouter);
+router.use(mailSesRouter);
+router.use(fileUploadRouter); // Define as /api/upload
 
 export default router;

@@ -3,15 +3,19 @@ import path from "path";
 import fs from "fs";
 import { Request } from "express";
 
-// Ensure the upload directory exists
+// Define the upload directory path
 const uploadDir = "public/uploads/";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+
+const ensureUploadDirExists = () => {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+};
 
 // Define the storage location and filename format
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    ensureUploadDirExists(); // Ensure the directory exists before saving the file
     cb(null, uploadDir); // Specify the upload folder
   },
   filename: (req, file, cb) => {
