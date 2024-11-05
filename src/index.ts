@@ -1,25 +1,27 @@
-// require('dotenv').config({path:'../.env'})
-
-import express from 'express';
-import dotenv from 'dotenv';
-import router from './routes';
+// app/index.ts
+import express from "express";
+import dotenv from "dotenv";
+import router from "./routes";
 dotenv.config({
-    path: '../.env'
+  path: "../.env",
 });
 
 const app = express();
 const port = process.env.PORT || 8004;
 
-app.get('/', (req, res) => {
-    res.send('Hello, TypeScript Node.js App!');
+app.get("/", (req, res) => {
+  res.send("Hello, TypeScript Node.js App!");
 });
-// Middleware
 
 app.use(express.json());
 
-app.use('/api/',router);
+app.use("/api", router);  // Ensure the base route is "/api"
 
-// Routes
+// Start server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
+
+const all_routes = require("express-list-endpoints");
+console.log(all_routes(app));
+console.log(router.stack.map(r => r.route?.path || r.name));

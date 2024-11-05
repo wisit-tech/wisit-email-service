@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/dotenv-safe": "^8.1.6",
+    "@types/multer": "^1.4.12",
     "@types/node": "^20.14.2",
     "@types/nodemailer": "^6.4.15",
     "typescript": "^5.4.5"
@@ -35,6 +36,7 @@
     "express-list-endpoints": "^7.1.0",
     "mongodb": "5.7.0",
     "mongoose": "7.4.3",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.4",
     "nvm": "^0.0.4",
