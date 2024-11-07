@@ -3,6 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/index";
 import { serveStaticFiles } from "./utils/serveStaticFiles";
+import { setupSwagger } from "./utils/swagger";
+import { SERVICE_ENDPOINT } from "./utils/constants";
 dotenv.config({
   path: "../.env",
 });
@@ -14,11 +16,11 @@ serveStaticFiles(app, "/public", "public");
 app.get("/", (req, res) => {
   res.send("Hey, Wisit here!");
 });
-
+console.log(SERVICE_ENDPOINT)
 app.use(express.json());
 
 // Set up Swagger API documentation
-// setupSwagger(app);
+setupSwagger(app);
 
 // Routes
 app.use("/api", router);
