@@ -7,6 +7,7 @@
     "dev": "concurrently -r \"npm run watch:ts\" \"npm run watch:node\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv-safe/config build/src/index.js",
+    "swagger-autogen": "node ./docs/swagger.ts",
     "clean": "./node_modules/.bin/rimraf coverage build tmp",
     "build": "tsc -p tsconfig.release.json",
     "watch:node": "nodemon -r dotenv-safe/config --delay 100ms build/src/index.js",
@@ -21,6 +22,8 @@
     "@types/multer": "^1.4.12",
     "@types/node": "^20.14.2",
     "@types/nodemailer": "^6.4.15",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
     "@types/validator": "^13.12.2",
     "typescript": "^5.4.5"
   },
@@ -42,6 +45,8 @@
     "nodemon": "^3.1.4",
     "nvm": "^0.0.4",
     "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "validator": "^13.12.0"
   }
