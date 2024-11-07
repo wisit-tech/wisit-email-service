@@ -1,0 +1,163 @@
+  {
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Wisit Services",
+      "description": "API documentation for Wisit external services",
+      "contact": {
+        "name": "API Support",
+        "email": "wisit-tech@wisit.in"
+      }
+    },
+    "host": "localhost:8004",
+    "basePath": "/api",
+    "tags": [
+      {
+        "name": "Mail Services",
+        "description": "Email sending services using Nodemailer and SES"
+      },
+      {
+        "name": "File Upload",
+        "description": "File upload and management services"
+      }
+    ],
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "securityDefinitions": {},
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/mail/hotel": {
+        "post": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mailId": {
+                    "example": "any"
+                  },
+                  "subject": {
+                    "example": "any"
+                  },
+                  "message": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/mail/ses": {
+        "post": {
+          "description": "",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mailId": {
+                    "example": "any"
+                  },
+                  "subject": {
+                    "example": "any"
+                  },
+                  "message": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/upload": {
+  "post": {
+    "description": "Upload a file",
+    "consumes": ["multipart/form-data"],
+    "parameters": [
+      {
+        "name": "file",
+        "in": "formData",
+        "description": "The file to upload",
+        "required": true,
+        "type": "file"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "File uploaded successfully"
+      },
+      "400": {
+        "description": "Bad Request"
+      },
+      "500": {
+        "description": "Internal Server Error"
+      }
+    }
+  }
+}
+    },
+    "definitions": {
+      "successResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 200
+          },
+          "message": {
+            "type": "string",
+            "example": "Success"
+          }
+        }
+      },
+      "errorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 500
+          },
+          "message": {
+            "type": "string",
+            "example": "An unexpected error occurred."
+          }
+        }
+      }
+    }
+  }
