@@ -3,8 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/index";
 import { serveStaticFiles } from "./utils/serveStaticFiles";
-import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "../docs/swagger.json";
+// import swaggerUi from "swagger-ui-express";
+// import swaggerDocument from "../docs/swagger.json";
 // import { setupSwagger } from "./utils/swagger";
 dotenv.config({
   path: "../.env",
@@ -25,7 +25,7 @@ app.use(express.json());
 // setupSwagger(app);
 
 // Routes
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", router);
 // Start server
 app.listen(port, () => {
