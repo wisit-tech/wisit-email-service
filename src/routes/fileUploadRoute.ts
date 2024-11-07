@@ -4,39 +4,6 @@ import { SERVICE_ENDPOINT } from "../utils/constants"; // Import the constant fo
 
 const fileUploadRouter = express.Router();
 
-/**
- * @swagger
- * /upload:
- *   post:
- *     summary: Upload a file
- *     description: Upload a file to the server.
- *     consumes:
- *       - multipart/form-data
- *     parameters:
- *       - name: file
- *         in: formData
- *         required: true
- *         type: file
- *         description: The file to be uploaded
- *     responses:
- *       200:
- *         description: File uploaded successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: File uploaded successfully!
- *                 fileUrl:
- *                   type: string
- *                   example: /public/uploads/filename.png
- *       400:
- *         description: Bad request (e.g., no file uploaded or file is invalid)
- *       500:
- *         description: Internal server error
- */
 // File upload route
 fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
   upload.single("file")(req, res, (err) => {

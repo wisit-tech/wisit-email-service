@@ -3,43 +3,6 @@ import { sendEmailUsingSes } from "../services/sesEmailService";
 import { validateEmailParams } from "../utils/validateEmailParams";
 const mailSesRouter = express.Router();
 
-/**
- * @swagger
- * /mail/ses:
- *   post:
- *     summary: Send an email via AWS SES
- *     description: Sends an email using Amazon's Simple Email Service (SES).
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               mailId:
- *                 type: string
- *                 example: "recipient@example.com"
- *               subject:
- *                 type: string
- *                 example: "Hello from AWS SES"
- *               message:
- *                 type: string
- *                 example: "This is a test email sent from AWS SES."
- *     responses:
- *       200:
- *         description: Email sent successfully via AWS SES
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Email sent successfully via AWS SES"
- *       500:
- *         description: Failed to send email
- */
-
 mailSesRouter.post(
   "/mail/ses",
   validateEmailParams,
