@@ -33,13 +33,13 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback
 ) => {
-  const allowedTypes = /\.(png|jpeg|jpg|pdf|docx|txt)$/;
+  const allowedTypes = /\.(png|jpeg|jpg|pdf|docx|txt|svg)$/;
   if (allowedTypes.test(file.originalname.toLowerCase())) {
     cb(null, true);
   } else {
     cb(
       new Error(
-        "Unsupported file type! Please upload PNG, JPEG, PDF, DOCX, or TXT files."
+        "Unsupported file type! Please upload PNG, JPEG, SVG, PDF, DOCX, or TXT files."
       )
     );
   }
