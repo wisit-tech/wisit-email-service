@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
+
+// Set up Swagger API documentation
+// setupSwagger(app);
+
+// Routes
 app.use("/api", router);
 
 // Start server
