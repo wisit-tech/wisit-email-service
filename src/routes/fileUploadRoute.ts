@@ -1,28 +1,32 @@
 import express, { Request, Response } from "express";
-import { upload } from "../api/fileuploader";
+import { upload } from "../services/fileUploadService";
+import { SERVICE_ENDPOINT } from "../utils/constants"; // Import the constant for the service endpoint
 
 const fileUploadRouter = express.Router();
 
-// Define the uploadFile function and route in one file
+// File upload route
 fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
   upload.single("file")(req, res, (err) => {
+    // Handle errors during the file upload
     if (err) {
-      return res.status(400).json({ message: err.message });
+      return res
+        .status(400)
+        .json({ message: "File upload failed: " + err.message });
     }
+
+    // If no file is uploaded, return an error message
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded!" });
     }
 
-    // Construct the URL for the uploaded file
-    const fileUrl = `/public/uploads/${req.file.filename}`;
+    // Construct the URL for the uploaded file based on the service endpoint
+    const fileUrl = `${SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
 
-    // temporary till we get SSH to update the env file with the SERVICE_ENDPOINT var
-    // const fileUrl = `${process.env.SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
-
-    // Send the response with the URL
-    res
-      .status(200)
-      .json({ message: "File uploaded successfully!", fileUrl: fileUrl });
+    // Send the success response with the file URL
+    res.status(200).json({
+      message: "File upload successful",
+      fileUrl: fileUrl,
+    });
   });
 });
 

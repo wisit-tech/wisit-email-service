@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import { isValidEmail } from "../utils/validators";
+import { config } from "../utils/config";
 
 export const mailHotel = async (params: {
   mailId: string;
@@ -8,10 +10,7 @@ export const mailHotel = async (params: {
   console.log(params);
 
   // Validate email address format
-  if (
-    !params.mailId ||
-    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(params.mailId)
-  ) {
+  if (!isValidEmail(params.mailId)) {
     console.error("Invalid email format:", params.mailId);
     throw new Error("Invalid email format");
   }
@@ -19,8 +18,8 @@ export const mailHotel = async (params: {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_ID,
-      pass: process.env.PASSWORD,
+      user: config.email.id,
+      pass: config.email.password,
     },
   });
 

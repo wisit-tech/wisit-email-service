@@ -2,24 +2,21 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/index";
-import { serveStaticFiles } from "./utility/serveStaticFiles";
+import { serveStaticFiles } from "./utils/serveStaticFiles";
 dotenv.config({
   path: "../.env",
 });
 
 const app = express();
 const port = process.env.PORT || 8004;
-// app.use('/public', express.static('public'));
 serveStaticFiles(app, "/public", "public");
-
 
 app.get("/", (req, res) => {
   res.send("Hey, Wisit here!");
 });
 
 app.use(express.json());
-
-app.use("/api", router);  // Ensure the base route is "/api"
+app.use("/api", router);
 
 // Start server
 app.listen(port, () => {
