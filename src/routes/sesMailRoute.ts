@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { sendEmailUsingSes } from "../services/sesEmailService";
-import { validateEmailParams } from "../utils/validateEmailParams";
+import { validateEmailParams } from "../middlewares/validateEmailParams";
 const mailSesRouter = express.Router();
 
 /**

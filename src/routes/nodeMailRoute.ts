@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { mailHotel } from "../services/nodeEmailService";
-import { validateEmailParams } from "../utils/validateEmailParams";
+import { validateEmailParams } from "../middlewares/validateEmailParams";
 
 const mailHotelRouter = express.Router();
 

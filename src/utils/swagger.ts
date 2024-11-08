@@ -30,7 +30,22 @@ const swaggerOptions = {
         description: "File upload and management services",
       },
     ],
-    basePath: "/api", // Set the base path for the API
+    components: {
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-api-key", // Name of the header expected in requests
+          description:
+            "API key needed to access the endpoints. Use the 'x-api-key' header to provide the API key.",
+        },
+      },
+    },
+    security: [
+      {
+        ApiKeyAuth: [], // Apply API key authentication globally
+      },
+    ],
   },
   apis: ["src/routes/**/*.ts"], // Path to your API routes for JSDoc annotations
 };
