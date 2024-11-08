@@ -16,7 +16,7 @@ serveStaticFiles(app, "/public", "public");
 app.get("/", (req, res) => {
   res.send("Hey, Wisit here!");
 });
-console.log(SERVICE_ENDPOINT)
+// console.log(SERVICE_ENDPOINT)
 app.use(express.json());
 
 // Set up Swagger API documentation
@@ -27,7 +27,7 @@ app.use("/api", router);
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on ${SERVICE_ENDPOINT}`);
 });
 
 const all_routes = require("express-list-endpoints");

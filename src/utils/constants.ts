@@ -11,6 +11,6 @@ export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 export const EMAIL_SOURCE = process.env.EMAIL_ID || "default@domain.com";
 export const API_KEY = process.env.PASSWORD;
 // Construct the full service endpoint dynamically using DNS and port
-export const SERVICE_ENDPOINT = isProduction
+export const SERVICE_ENDPOINT = true
   ? `${process.env.SERVICE_DNS}:${process.env.PORT}` // Combine DNS and port
   : "http://localhost:8004";
