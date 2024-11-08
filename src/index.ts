@@ -24,6 +24,10 @@ setupSwagger(app);
 
 // Routes
 app.use("/api", router);
+console.log("NODE_ENV:", process.env.IS_PROD);
+console.log("Current working directory:", process.cwd());
+
+// console.log("DNS_ENDPOINT:", process.env.DNS_ENDPOINT);
 
 // Start server
 app.listen(port, () => {
