@@ -1,20 +1,30 @@
 import multer, { FileFilterCallback } from "multer";
 import fs from "fs";
+import path from "path";
 import { Request } from "express";
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from "../utils/constants";
 
-const uploadDir = "public/uploads/";
+const baseUploadDir = "public/uploads/";
 
-const ensureUploadDirExists = () => {
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+const ensureDirectoryExists = (dirPath: string) => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
   }
 };
 
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
-    ensureUploadDirExists();
-    cb(null, uploadDir);
+    const folderName = req.body.folderName?.trim();
+    let uploadPath = baseUploadDir;
+
+    if (folderName) {
+      // Sanitize folder name to prevent directory traversal
+      const sanitizedFolderName = folderName.replace(/[^a-zA-Z0-9-_]/g, '_');
+      uploadPath = path.join(baseUploadDir, sanitizedFolderName);
+    }
+
+    ensureDirectoryExists(uploadPath);
+    cb(null, uploadPath);
   },
   filename: (req: Request, file, cb) => {
     const sanitizedFileName = file.originalname.replace(/\s+/g, "_");
