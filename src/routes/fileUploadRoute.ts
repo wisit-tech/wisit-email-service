@@ -8,7 +8,7 @@ const fileUploadRouter = express.Router();
  * /upload:
  *   post:
  *     summary: Upload a file
- *     description: Upload a file to the server.
+ *     description: Upload a file to the server. Optionally specify a folder name to organize uploads.
  *     requestBody:
  *       required: true
  *       content:
@@ -20,6 +20,11 @@ const fileUploadRouter = express.Router();
  *                 type: string
  *                 format: binary
  *                 description: The file to be uploaded
+ *               folderName:
+ *                 type: string
+ *                 description: Optional folder name to organize uploads (allows alphanumeric characters, hyphens, and underscores)
+ *                 example: "customer_documents"
+ *                 required: false
  *     responses:
  *       200:
  *         description: File uploaded successfully
@@ -33,9 +38,17 @@ const fileUploadRouter = express.Router();
  *                   example: File uploaded successfully!
  *                 fileUrl:
  *                   type: string
- *                   example: /public/uploads/filename.png
+ *                   example: /uploads/customer_documents/1234567890-document.pdf
  *       400:
- *         description: Bad request (e.g., no file uploaded or file is invalid)
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: File upload failed - Invalid file type or no file provided
  *       500:
  *         description: Internal server error
  */
