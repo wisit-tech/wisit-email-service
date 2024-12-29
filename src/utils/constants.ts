@@ -13,4 +13,4 @@ export const API_KEY = process.env.PASSWORD;
 // Construct the full service endpoint dynamically using DNS and port
 export const SERVICE_ENDPOINT = process.env.IS_PROD
   ? "http://localhost:8004"
-  : `${process.env.SERVICE_DNS}:${process.env.PORT}`; // Combine DNS and port
+  : `${process.env.SERVICE_DNS}`; // Combine DNS and port
