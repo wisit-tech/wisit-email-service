@@ -38,7 +38,7 @@ const fileUploadRouter = express.Router();
  *                   example: File uploaded successfully!
  *                 fileUrl:
  *                   type: string
- *                   example: /uploads/customer_documents/1234567890-document.pdf
+ *                   example: /public/uploads/customer_documents/1234567890-document.pdf
  *       400:
  *         description: Bad request
  *         content:
@@ -68,11 +68,13 @@ fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
       return res.status(400).json({ message: "No file uploaded!" });
     }
 
-    // Get the relative path from the req.file.path
-    const relativePath = req.file.path.replace(/^public\//, '');
+    // Get the folder path if it exists
+    const folderName = req.body.folderName?.trim();
     
     // Construct the URL for the uploaded file based on the service endpoint
-    const fileUrl = `${SERVICE_ENDPOINT}/${relativePath}`;
+    const fileUrl = folderName 
+      ? `${SERVICE_ENDPOINT}/public/uploads/${folderName}/${req.file.filename}`
+      : `${SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
 
     // Send the success response with the file URL
     res.status(200).json({
