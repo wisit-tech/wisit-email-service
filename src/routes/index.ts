@@ -2,6 +2,7 @@ import express from "express";
 import mailSesRouter from "./sesMailRoute";
 import fileUploadRouter from "./fileUploadRoute";
 import mailHotelRouter from "./nodeMailRoute";
+import qrCodeRouter from "./qrCodeRoute";
 import { validateApiKey } from "../middlewares/validateApiKey";
 
 const router = express.Router();
@@ -13,5 +14,5 @@ router.use(validateApiKey);
 router.use( mailHotelRouter);
 router.use( mailSesRouter);
 router.use( fileUploadRouter);
-
+router.use(qrCodeRouter);
 export default router;
