@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { upload } from "../services/fileUploadService";
 import { SERVICE_ENDPOINT } from "../utils/constants"; // Import the constant for the service endpoint
 import { logger } from "../utils/logger";  // Add this import
+import path from "path";
 
 const fileUploadRouter = express.Router();
 /**
@@ -55,42 +56,51 @@ const fileUploadRouter = express.Router();
  */
 
 // File upload route
-fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
-  logger.info(`📝 File upload request received`);
+fileUploadRouter.post("/upload", (req: Request, res: Response) => {
+  logger.info(`📝 File upload request initiated`);
   
-  upload.single("file")(req, res, (err) => {
-    // Handle errors during the file upload
-    if (err) {
-      logger.error(`❌ File upload failed: ${err.message}`);
-      return res
-        .status(400)
-        .json({ message: "File upload failed: " + err.message });
+  // Handle the file upload
+  upload.single("file")(req, res, async (err) => {
+    try {
+      if (err) {
+        logger.error(`❌ Upload middleware error: ${err.message}`);
+        return res.status(400).json({ 
+          message: "File upload failed", 
+          error: err.message 
+        });
+      }
+
+      if (!req.file) {
+        logger.warn("⚠️ No file provided in request");
+        return res.status(400).json({ message: "No file uploaded!" });
+      }
+
+      logger.info(`📁 File received: ${req.file.originalname}`);
+      logger.info(`💾 File saved as: ${req.file.filename}`);
+      logger.info(`📂 File saved in: ${req.file.destination}`);
+
+      const folderName = req.body.folderName?.trim();
+      const fileUrl = folderName 
+        ? path.join(SERVICE_ENDPOINT, 'public/uploads', folderName, req.file.filename)
+        : path.join(SERVICE_ENDPOINT, 'public/uploads', req.file.filename);
+
+      logger.info(`🔗 Generated URL: ${fileUrl}`);
+
+      res.status(200).json({
+        message: "File upload successful",
+        fileUrl: fileUrl.replace(/\\/g, '/'), // Ensure forward slashes for URLs
+        originalName: req.file.originalname,
+        size: req.file.size,
+        folder: folderName || 'root'
+      });
+
+    } catch (error: unknown) {
+      logger.error(`❌ Unexpected error: ${error}`);
+      res.status(500).json({ 
+        message: "Internal server error",
+        error: error instanceof Error ? error.message : String(error)
+      });
     }
-
-    // If no file is uploaded, return an error message
-    if (!req.file) {
-      logger.warn(`⚠️ No file provided in the request`);
-      return res.status(400).json({ message: "No file uploaded!" });
-    }
-
-    logger.info(`📁 File received: ${req.file.originalname}`);
-
-    // Get the folder path if it exists
-    const folderName = req.body.folderName?.trim();
-    logger.info(`📂 Target folder: ${folderName || 'root upload directory'}`);
-    
-    // Construct the URL using SERVICE_ENDPOINT
-    const fileUrl = folderName 
-      ? `${SERVICE_ENDPOINT}/public/uploads/${folderName}/${req.file.filename}`
-      : `${SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
-
-    logger.info(`✅ File successfully uploaded. URL: ${fileUrl}`);
-
-    // Send the success response with the file URL
-    res.status(200).json({
-      message: "File upload successful",
-      fileUrl: fileUrl,
-    });
   });
 });
 

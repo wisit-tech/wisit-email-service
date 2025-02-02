@@ -24,6 +24,16 @@ const qrCodeRouter = express.Router();
  *                 type: string
  *                 description: The URL to encode in QR
  *                 example: "https://wisit.space"
+ *               darkColor:
+ *                 type: string
+ *                 description: Color of QR code (hex format)
+ *                 example: "#000000"
+ *                 required: false
+ *               lightColor:
+ *                 type: string
+ *                 description: Background color (hex format)
+ *                 example: "#ffffff"
+ *                 required: false
  *     responses:
  *       200:
  *         description: QR Code generated successfully
@@ -39,7 +49,7 @@ const qrCodeRouter = express.Router();
  */
 qrCodeRouter.post("/get-qr", async (req: Request, res: Response) => {
   try {
-    const { link } = req.body;
+    const { link, darkColor = '#000000', lightColor = '#ffffff' } = req.body;
     
     if (!link || !isValidUrl(link)) {
       logger.warn(`❌ Invalid URL provided: ${link}`);
@@ -47,6 +57,7 @@ qrCodeRouter.post("/get-qr", async (req: Request, res: Response) => {
     }
 
     logger.info(`📝 Generating QR code for link: ${link}`);
+    logger.info(`🎨 Colors - Dark: ${darkColor}, Light: ${lightColor}`);
 
     // Ensure QR directory exists
     const qrDir = "public/uploads/qr";
@@ -59,14 +70,14 @@ qrCodeRouter.post("/get-qr", async (req: Request, res: Response) => {
     const filename = `qr-${Date.now()}.png`;
     const filePath = path.join(qrDir, filename);
 
-    // Generate QR code
+    // Generate QR code with custom colors
     await QRCode.toFile(filePath, link, {
       errorCorrectionLevel: 'H',
       margin: 1,
       width: 400,
       color: {
-        dark: '#000000',  // QR color
-        light: '#ffffff'  // Background
+        dark: darkColor,
+        light: lightColor
       }
     });
 
