@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { Request } from "express";
 import { ALLOWED_FILE_TYPES, MAX_FILE_SIZE } from "../utils/constants";
+import { logger } from "../utils/logger";
 
 const baseUploadDir = "public/uploads/";
 
@@ -23,6 +24,7 @@ const storage = multer.diskStorage({
       uploadPath = path.join(baseUploadDir, sanitizedFolderName);
     }
 
+    logger.info(`🔍 Absolute upload path: ${path.resolve(uploadPath)}`);
     ensureDirectoryExists(uploadPath);
     cb(null, uploadPath);
   },

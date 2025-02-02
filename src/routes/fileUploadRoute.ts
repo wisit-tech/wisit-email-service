@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { upload } from "../services/fileUploadService";
 import { SERVICE_ENDPOINT } from "../utils/constants"; // Import the constant for the service endpoint
+import { logger } from "../utils/logger";  // Add this import
 
 const fileUploadRouter = express.Router();
 /**
@@ -55,9 +56,12 @@ const fileUploadRouter = express.Router();
 
 // File upload route
 fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
+  logger.info(`📝 File upload request received`);
+  
   upload.single("file")(req, res, (err) => {
     // Handle errors during the file upload
     if (err) {
+      logger.error(`❌ File upload failed: ${err.message}`);
       return res
         .status(400)
         .json({ message: "File upload failed: " + err.message });
@@ -65,16 +69,22 @@ fileUploadRouter.post("/upload", (req: Request, res: Response): void => {
 
     // If no file is uploaded, return an error message
     if (!req.file) {
+      logger.warn(`⚠️ No file provided in the request`);
       return res.status(400).json({ message: "No file uploaded!" });
     }
 
+    logger.info(`📁 File received: ${req.file.originalname}`);
+
     // Get the folder path if it exists
     const folderName = req.body.folderName?.trim();
+    logger.info(`📂 Target folder: ${folderName || 'root upload directory'}`);
     
-    // Construct the URL for the uploaded file based on the service endpoint
+    // Construct the URL using SERVICE_ENDPOINT
     const fileUrl = folderName 
       ? `${SERVICE_ENDPOINT}/public/uploads/${folderName}/${req.file.filename}`
       : `${SERVICE_ENDPOINT}/public/uploads/${req.file.filename}`;
+
+    logger.info(`✅ File successfully uploaded. URL: ${fileUrl}`);
 
     // Send the success response with the file URL
     res.status(200).json({

@@ -5,6 +5,8 @@ import router from "./routes/index";
 import { serveStaticFiles } from "./utils/serveStaticFiles";
 import { setupSwagger } from "./utils/swagger";
 import { SERVICE_ENDPOINT } from "./utils/constants";
+import path from "path";
+import { checkDiskSpace } from './utils/diskMonitor';
 dotenv.config({
   path: "../.env",
 });
@@ -12,6 +14,9 @@ dotenv.config({
 const app = express();
 const port = process.env.PORT || 8004;
 serveStaticFiles(app, "/public", "public");
+
+// Update static file serving to match the SERVICE_DNS path structure
+app.use('/external/public', express.static(path.join(__dirname, '../public')));
 
 app.get("/", (req, res) => {
   res.send("Hey, Wisit here!");
@@ -36,3 +41,5 @@ app.listen(port, () => {
 
 const all_routes = require("express-list-endpoints");
 console.log(all_routes(app));
+
+checkDiskSpace(); // Initial check when server starts
