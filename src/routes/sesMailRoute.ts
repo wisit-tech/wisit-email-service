@@ -50,7 +50,7 @@ mailSesRouter.post(
       await sendEmailUsingSes({ mailId, subject, message });
       res.status(200).send({ message: "Email sent successfully via AWS SES" });
     } catch (error) {
-      console.error("Error sending email via AWS SES:", error);
+      console.error("Error while sending email via AWS SES:", error);
       res.status(500).send({ message: "Failed to send email" });
     }
   }
