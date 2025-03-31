@@ -11,7 +11,7 @@ export const validateEmailParams = (
   if (!mailId || !subject || !message) {
     res
       .status(400)
-      .json({ message: "mailId, subject, and message are required" });
+      .json({ message: "mailId, subject, and messages are required" });
   } else {
     next(); // Proceed to the next middleware or route handler if validation is successful
   }
