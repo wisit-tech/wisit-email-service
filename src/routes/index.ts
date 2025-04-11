@@ -3,6 +3,7 @@ import mailSesRouter from "./sesMailRoute";
 import fileUploadRouter from "./fileUploadRoute";
 import mailHotelRouter from "./nodeMailRoute";
 import qrCodeRouter from "./qrCodeRoute";
+import telegramRouter from "./telegramAlertRoute";
 import { validateApiKey } from "../middlewares/validateApiKey";
 
 const router = express.Router();
@@ -15,4 +16,5 @@ router.use( mailHotelRouter);
 router.use( mailSesRouter);
 router.use( fileUploadRouter);
 router.use(qrCodeRouter);
+router.use(telegramRouter);
 export default router;

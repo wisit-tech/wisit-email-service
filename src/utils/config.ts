@@ -8,5 +8,8 @@ export const config = {
       id: process.env.EMAIL_ID || '',
       password: process.env.PASSWORD || '',
     },
+    telegram: {
+      api_key: process.env.TELEGRAM_BOT_TOKEN || '',
+    }
   };
   
